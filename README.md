@@ -1,4 +1,4 @@
-﻿﻿# MyReads Project
+# MyReads Project
 
 ## Table of Contents
 
