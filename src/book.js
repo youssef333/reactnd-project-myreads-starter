@@ -8,12 +8,20 @@ class book extends component {
 
 	render() {
 		let bookCover;
-		if(this.props.book.imageLinks){
-          bookCover =`url(${this.props.books.imageLinks.bookCover})`
+		if(!!this.props.book.imageLinks){
+          bookCover = this.props.book.imageLinks.smallThumbnail;
       }else{
           bookCover= `url('https://placeholdit.co//i/128x193?&bg=555&fc=fff&text=BookCover')`
       }
+
+      const style = {
+      	width:127;
+      	height:192;
+      	backgroundImage:`url($(bookCover))`
+      }
+
 		return (
+
 <li>
   <div className="book">
     <div className="book-top">
@@ -21,7 +29,7 @@ class book extends component {
       </div>
       <div className="book-shelf-changer">
         <select 
-                value={this.props.info.shelf || 'none'} 
+                value={this.props.book.shelf || 'none'} 
                 onChange={(event) => this.handleChange(event.target.value)}>
                       <option value="move" disabled>Move to...</option>
                       <option value="currentlyReading">Currently Reading</option>
@@ -31,11 +39,13 @@ class book extends component {
         </select>
       </div>
     </div>
-    <div className="book-title">{book.title}</div>
-    <div className="book-authors">{book.authors && book.authors.join(', ')}</div>
+    <div className="book-title">{this.props.book.title}</div>
+    <div className="book-authors">
+    {this.props.book.authors ? this.props.authors.joinjoin(', ') : ''}
+    </div>
 
   </div>
-  </li>
+</li>
     )
   }
 }
