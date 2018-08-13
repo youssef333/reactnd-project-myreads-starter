@@ -1,7 +1,7 @@
-import React, { component } from 'react';
-import book from './book'
+import React, { Component } from 'react';
+import Book from './book'
 
-class bookShelf extends component {
+class bookShelf extends Component {
 
 	sendShelfChange(book, shelf) {
 		this.props.sendShelfChange(book, shelf)
@@ -12,7 +12,7 @@ class bookShelf extends component {
 			return null
 		}
 
-		return {
+		return (
 			<div className="bookshelf">
                <h2 className="bookshelf-title">{this.props.title}</h2>
                	<div className="bookshelf-books">
@@ -25,7 +25,7 @@ class bookShelf extends component {
             		</ol>
             	</div>
    			</div>
-		}
+		)
 	}
 }
 

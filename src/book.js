@@ -1,6 +1,6 @@
-import React, { component } from 'react';
+import React, { Component } from 'react';
 
-class book extends component {
+class book extends Component {
 
 	handleChange(value) {
 		this.props.sendShelfChange(this.props.book ,value)
@@ -15,8 +15,8 @@ class book extends component {
       }
 
       const style = {
-      	width:127;
-      	height:192;
+      	width:127,
+      	height:192,
       	backgroundImage:`url($(bookCover))`
       }
 
@@ -41,7 +41,7 @@ class book extends component {
     </div>
     <div className="book-title">{this.props.book.title}</div>
     <div className="book-authors">
-    {this.props.book.authors ? this.props.authors.joinjoin(', ') : ''}
+    {this.props.book.authors ? this.props.authors.join(', ') : ''}
     </div>
 
   </div>

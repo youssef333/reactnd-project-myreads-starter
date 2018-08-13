@@ -1,9 +1,9 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import bookshelf from './bookshelf'
-import searchbook from './searchbook'
-import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
+import Bookshelf from './bookShelf'
+import Searchbook from './searchBook'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
@@ -52,26 +52,26 @@ class BooksApp extends React.Component {
 
               <div className="list-books-content">
                 <div>
-                  <bookShelf
+                  <Bookshelf
                   title="Currently Reading"
                   books={
-                    this.state.books.filter(item => item.shelf === 'CurrentlyReading')
+                    this.state.books.filter(item => item.shelf === 'currentlyReading')
                   }
                   sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
                   />
 
-                  <bookShelf
+                  <Bookshelf
                   title="Want to Read"
                   books={
-                    this.state.books.filter(item => item.shelf === 'WantToRead')
+                    this.state.books.filter(item => item.shelf === 'wantToRead')
                   }
                   sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
                   />
 
-                  <bookShelf
+                  <Bookshelf
                   title="Read"
                   books={
-                    this.state.books.filter(item => item.shelf === 'Read')
+                    this.state.books.filter(item => item.shelf === 'read')
                   }
                   sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
                   />
@@ -80,7 +80,7 @@ class BooksApp extends React.Component {
               </div>
 
               <div className="open-search">
-                <link to './search'>Add a book </link>
+                <Link to="./searchBook">Add a book</Link>
               </div>
             </div>
 

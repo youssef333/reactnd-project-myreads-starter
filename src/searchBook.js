@@ -1,54 +1,69 @@
-import React from 'react'
+import React , { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
-import book from './book'
-import {link} from 'react-router-dom'
+import Book from './book'
+import { Link } from 'react-router-dom'
 
 class searchBook extends Component {
 	state = {
-    books: []
+    query:'',
+    searchResult:[]
   };
 
-  sendShelfChange(book, shelf) {
-  	this.props.sendShelfChange(book, shelf)
+  updateQuery=(query) =>{
+    this.setState({query:query})
   }
 
-  fetchBooks(query) {
-  	if(!!query) {
+
+  searchBooks(query) {
+  	if(query) {
   		BooksAPI.search(query).then(data => {
-  			if(!!data.error) {
-  				this.setState({
-  					books=[]
-  				});
-  			} else {
-  				let checkForShelfs= data.map(book => {
-  					for(var i= 0; i<this.props.shelfedBooks.length; i++) {
-  						if(this.props.shelfedBooks[i].id === book.id) {
-  							book.shelf = this.props.shelfedBooks[i].shelf;
-  						}
-  					}
-  					return book;
-  				})
-  				this.setState({
-  					books : checkForShelfs
-  				})
+        if(!!data.error) {
+          let bookshelf= data.map(book => {
+            for (var i = 0; i < this.props.books.length; i++) {
+              if (this.props.books[i].id === book.id) {
+                book.shelf = this.props.books[i].shelf;
+              }
+            }
+            return book;
+          })
+           this.setState({
+            searchResult: data
+          })
+  				
   			}
-  		})
-  	}
+        else{
+          this.setState({searchResult: []});  
+        }
+
+        }
+      )
+    }
   }
+  
+  handleChange = (query, event) => {
+    this.updateQuery(query)
+    this.searchBooks(query)
+  }
+
+  sendShelfChange(book,shelf){
+           this.props.sendShelfChange(book,shelf)
+       }
+  	
+  
 
 render() {
 
 	const {books}= this.state;
 
-	return {
+	return (
 		<div className="search-books">
             <div className="search-books-bar">
-            	<link to="/" className="close-search">close</link>
+            	<Link to="/" className="close-search">close</Link>
             		<div className="search-books-input-wrapper">
             			<input 
             			type="text"
             			placeholder="Search by title or author"
-            			onChange={(event) => this.fetchBooks(event.target.value)} />
+            			onChange={(event) => this.handleChange(event.target.value)} />
             		</div>
             </div>
 
@@ -63,7 +78,7 @@ render() {
             </div>
         </div>
 
-	}
+	)
 }
 
 }
