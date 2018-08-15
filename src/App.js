@@ -1,9 +1,10 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Bookshelf from './bookShelf'
-import Searchbook from './searchBook'
+//import BookShelf from './bookShelf'
+import SearchBook from './searchBook'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import MainPage from './mainPage'
 
 class BooksApp extends React.Component {
   state = {
@@ -12,9 +13,9 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     BooksAPI.getAll()
-    .then(data => this.setState({ 
-      books: data 
-    }))
+    .then(books => { this.setState({ books: books })
+    })
+
   }
 
   handleShelfChange = (book, shelf) => {
@@ -28,66 +29,24 @@ class BooksApp extends React.Component {
 
   }
 
+
   render() {
 
-    if(this.state.books.length === 0) {
-      return null
-    }
 
     return (
       <div className="app">
-          <Route path="/search" render={({history}) =>(
-            <searchbook
-            sendShelfChange={(book, shelf) => (this.handleShelfChange(book,shelf))}
-            shelfedBooks={this.state.books}
-            />
-        )} />
 
-          <Route exact path="/" render={({history}) =>(
+        <Route exact path="/" render={(history) => (
+          <MainPage books={this.state.books} handleShelfChange={this.handleShelfChange}/>
+          )}
+        />
 
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-
-              <div className="list-books-content">
-                <div>
-                  <Bookshelf
-                  title="Currently Reading"
-                  books={
-                    this.state.books.filter(item => item.shelf === 'currentlyReading')
-                  }
-                  sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
-                  />
-
-                  <Bookshelf
-                  title="Want to Read"
-                  books={
-                    this.state.books.filter(item => item.shelf === 'wantToRead')
-                  }
-                  sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
-                  />
-
-                  <Bookshelf
-                  title="Read"
-                  books={
-                    this.state.books.filter(item => item.shelf === 'read')
-                  }
-                  sendShelfChange={(book,shelf) => {this.handleShelfChange(book,shelf)}}
-                  />
-
-                </div>
-              </div>
-
-              <div className="open-search">
-                <Link to="./searchBook">Add a book</Link>
-              </div>
-            </div>
-
-            )} 
-          />
-
-        </div>
+        <Route path="search" render={(history) => (
+          <SearchBook books={this.state.books} handleShelfChange={this.handleShelfChange}/>
+          )}
+        />
+         
+</div>
   )}
 }
 
