@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 
 class book extends Component {
 
-/*	handleChange(value) {
-		this.props.sendShelfChange(this.props.book ,value)
-	}
-*/
 	render() {
-		let bookCover;
+		let bookCover= this.props.book.imageLinks ?
+		this.props.book.imageLinks.thumbnail : '';
+
 		if(!!this.props.book.imageLinks){
           bookCover = this.props.book.imageLinks.thumbnail;
       }else{
@@ -17,7 +15,7 @@ class book extends Component {
       const style = {
       	width:127,
       	height:192,
-      	backgroundImage:`url("${this.props.book.imageLinks.thumbnail}")`
+      	backgroundImage:`url("${bookCover}")`
       }
 
 		return (
@@ -45,7 +43,7 @@ class book extends Component {
 	    </div>
 	    	<div className="book-title">{this.props.book.title}</div>
 	    		<div className="book-authors">
-	    			{this.props.book.authors}
+	    			{this.props.book.authors ? this.props.book.authors.join(', ') : ''}
 	    		</div>
 
 	  </div>

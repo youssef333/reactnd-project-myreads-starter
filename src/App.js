@@ -1,3 +1,4 @@
+
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
@@ -19,11 +20,9 @@ class BooksApp extends React.Component {
 
   handleShelfChange = (book, shelf) => {
     BooksAPI.update(book, shelf)
-    .then(() => {
-      book.shelf=shelf;
-      this.setState(state=>({
-        books:state.books.filter(item=>item.id !== book.id).concat([book])
-      }))
+    
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books : books })
     })
 
   }
@@ -31,17 +30,16 @@ class BooksApp extends React.Component {
 
   render() {
 
-
     return (
       <div className="app">
 
-        <Route exact path="/" render={() => (
+        <Route exact path="/" render={({ history }) => (
           <MainPage books={this.state.books} handleShelfChange={this.handleShelfChange}/>
           )}
         />
 
-        <Route path="search" render={() => (
-          <SearchBook books={this.state.books} handleShelfChange={this.handleShelfChange}/>
+        <Route path="search" render={({ history }) => (
+          <SearchBook books={this.state.books} handleShelfChange={this.handleShelfChange}/> 
           )}
         />
          
